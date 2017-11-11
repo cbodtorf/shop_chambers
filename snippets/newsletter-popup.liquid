@@ -1,0 +1,155 @@
+
+<!-- Modal [see layout/theme.liquid] -->
+
+
+{% if settings.newsletter_popup_enable %}
+{% capture newsletter_popup_side_img %}newsletter_popup_side_img.jpg{% endcapture %}
+
+<div class="modal-bkg">
+
+  <div class="modal-text">
+
+    <div class="text-box width--two-thirds">
+      <button id="closePopupButton" class="btn button close-popup mfp-close">
+        {{ 'close-icon.svg' | asset_url | img_tag }}
+      </button>
+      <div class="text-content">
+        <div class="title-wrapper">
+          <h2 class="title">{{ settings.newsletter_popup_title | upcase }}</h2>
+          <span class="subtitle">{{ settings.newsletter_popup_subtitle | lowercase }}</span>
+        </div>
+        
+        {% assign form_action = settings.newsletter_form_action %}
+        <form action="{{ settings.footer_signup_action }}" method="post" id="mc-embedded-subscribe-form" class="newsletter-form" name="mc-modal" target="_blank">
+          {{ form.errors | default_errors }}
+          <p class="form-success hide">Thanks for signing up please confirm your email address!</p>
+          <p class="errors hide"></p>
+
+          <!-- <label for="Email" class="newsletter__label hidden-label">Email Address</label> -->
+          <div class="wrapper-input">
+            <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" class="mc-modal-input" placeholder="email address" name="EMAIL" id="Email" data-label="modal" autocorrect="off" autocapitalize="off">
+
+            <div class="newsletter-btn-wrapper mc-inputGroup">
+              <button type="submit" class="button btn newsletter__submit mc-modal-button" name="Notify_Modal" id="SubscribeModal">
+                <span class="newsletter__submit-text">Join</span>
+              </button>
+            </div>
+
+          </div>
+          <input type="hidden" name="PLACEMENT" id="Placement" value="popup">
+          <input type="hidden" name="REFERRAL" id="Referral" value="newsletter">
+        </form>
+
+      </div>
+
+
+      <!-- <div class="newsletter-wrapper">
+      </div> -->
+
+    </div>
+
+      <div class="modal-image" style="background-image: url({{ newsletter_popup_side_img | asset_url }});" alt="">
+
+  </div>
+</div>
+
+
+<script>
+	(function(){
+    /**
+    * Shopify color picker defaults to hex code.
+    * Sass automatically converts, but not JS.
+    */
+    function convertHex(hex,opacity){
+        hex = hex.replace('#','');
+        r = parseInt(hex.substring(0,2), 16);
+        g = parseInt(hex.substring(2,4), 16);
+        b = parseInt(hex.substring(4,6), 16);
+        result = 'rgba('+r+','+g+','+b+','+opacity/100+')';
+        return result;
+    }
+    var modalBkgColor = convertHex('{{ settings.color_popup_bg }}', 95)
+		window.addEventListener('load', function(){
+			var $modal = $('.modal-form.modal')
+			var $modalBkg = $('.modal-bkg')
+			var $modalText = $('.modal-text')
+      var popups = localStorage.getItem("popups")
+      var popupBtn = $('button.signup-form')
+      popupBtn.on('click', function(event) {
+        event.preventDefault();
+        showPopup()
+      })
+      if (popups === null) {
+        // New Visitor: Automatically shows popup after a delay if new to site.
+        setTimeout(showPopup, {{ settings.popup_delay }})
+      } else {
+        // LocalStorage set to expire after 7 days.
+        var currentDate = new Date().getTime();
+        var time = JSON.parse(popups)["created"];
+        var compare =  Math.abs(currentDate - time);
+        var days = Math.ceil((compare/(1000*60*60*24)));
+        var seconds = Math.ceil((compare/(1000)));
+
+        /**
+        * Testing
+        */
+//         if (seconds < 60) {
+//           console.log("returning visitor: ", 7 - seconds + " seconds left til expiration");
+//         } else {
+//           console.log("time expired");
+//           setTimeout(showPopup, {{ settings.popup_delay }})
+//         }
+        /**
+        * Production
+        */
+        if (days < 7) {
+          console.log("returning visitor: ", 7 - days + " days left til expiration");
+        } else {
+          console.log("time expired");
+          setTimeout(showPopup, {{ settings.popup_delay }})
+        }
+      }
+      /**
+      * Show popup
+      */
+      function showPopup() {
+				$modalBkg.addClass('modal')
+				$modalBkg.css('height', 'auto')
+        $modalBkg.css('background', modalBkgColor)
+				$modalText.css('visibility', 'visible')
+        // Click event for anything outside of modal box.
+				$(window).on('click', function(event){
+					var modalOn = document.querySelector('.modal-bkg')
+					if(event.target !== modalOn){
+            // Don't close popup
+					} else {
+            closePopup()
+					}
+				})
+        $('#closePopupButton').on('click', function(event){
+          event.preventDefault()
+          closePopup()
+        })
+        $('#closePopupLink').on('click', function(event){
+          event.preventDefault()
+          closePopup()
+        })
+			}
+      /**
+      * Close popup
+      */
+      var closePopup = function(){
+        $modalBkg.css('background', 'rgba(0,0,0,0.0)')
+        $modalBkg.css('height', '0px')
+        $modalText.css('visibility', 'hidden')
+        $modalBkg.removeClass('modal')
+        var date = new Date().getTime()
+        var obj = { created: date }
+        // Set LocalStorage with date object.
+        localStorage.setItem("popups", JSON.stringify(obj))
+      };
+		})
+	})();
+</script>
+
+{% endif %}

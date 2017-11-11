@@ -4776,7 +4776,7 @@ $local-gutter-inner-small: 8px;
   svg {
     display: block;
   }
-  
+
   @include breakpoint(s-up) {
     display: inline-block;
   }
@@ -5735,7 +5735,7 @@ input.mailing-list-email {
   .removed { text-align: center; }
 
   @include breakpoint(s) {
-    &.first { 
+    &.first {
       .product-item,
       .remove {
         border-top: 0;
@@ -6064,7 +6064,7 @@ $local-gutter-outer: 30px;
   @include breakpoint(s-up) {
     width: 50%;
   }
-  
+
   img {
     display: block;
   }
@@ -6537,10 +6537,10 @@ $gutter-medium: 40px;
 }
 
 @keyframes bouncedelay {
-  0%, 80%, 100% { 
+  0%, 80%, 100% {
     transform: scale(0.0);
     -webkit-transform: scale(0.0);
-  } 40% { 
+  } 40% {
     transform: scale(1.0);
     -webkit-transform: scale(1.0);
   }
@@ -7660,7 +7660,7 @@ ShopPad App: Infinite Options
 https://apps.shopify.com/custom-options
 * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #infiniteoptions-container {
-  
+
   > div {
     margin-bottom: 16px;
     display: inline-block;
@@ -8208,7 +8208,7 @@ body.lock-scroll {
       min-width: 200px;
       text-align: left;
       padding: 15px 0;
-      
+
       li {
         display: block;
       }
@@ -8557,3 +8557,376 @@ $sticky-header-outer-widths: 100px + $gutter-horizontal;
   }
 }
 
+/*================ Newsletter Popup ================*/
+/*================ Mixin Support ================*/
+@mixin prefix($property, $value) {
+  -webkit-#{$property}: #{$value};
+  -moz-#{$property}: #{$value};
+  -ms-#{$property}: #{$value};
+  -o-#{$property}: #{$value};
+  #{$property}: #{$value};
+}
+
+@mixin transition($transition: 0.1s all) {
+  @include prefix('transition', #{$transition});
+}
+
+/*================ Modal / Snippet ================*/
+.hide {
+  display: none;
+}
+.width--two-thirds {
+  width: 66%;
+  display: inline-block;
+}
+.width--one-third {
+  width: 33%;
+  display: inline-block;
+}
+
+.popup-subtitle {
+  text-transform: none;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  display: block;
+  font-size: 12px;
+}
+
+.modal-form.newsletter-wrapper {
+  margin-bottom: 15px;
+
+  .form-success {
+    max-width: 100%;
+    border: 2px solid {{ settings.color_popup_text }};
+    padding-top: 6px;
+    padding-bottom: 6px;
+    color: {{ settings.color_popup_text }};
+    background-color: {{ settings.color_popup_body }};
+  }
+
+  .input-group {
+    width: 100%;
+    border: 2px solid {{ settings.color_popup_text }};
+
+    .newsletter-btn-wrapper {
+      width: auto;
+      text-align: right;
+      border-left: 2px solid {{ settings.color_popup_text }};
+    }
+
+    input {
+      &::-webkit-input-placeholder { /* WebKit browsers */
+        color: #8b8b8b;
+        opacity: 1;
+        font-style: italic;
+      }
+
+      &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+        color: #8b8b8b;
+        opacity:  1;
+        font-style: italic;
+      }
+
+      &::-moz-placeholder { /* Mozilla Firefox 19+ */
+        color: #8b8b8b;
+        opacity:  1;
+        font-style: italic;
+      }
+
+      &:-ms-input-placeholder { /* Internet Explorer 10+ */
+        color: #8b8b8b;
+        font-style: italic;
+      }
+    }
+
+    input, .newsletter-btn-wrapper {
+      display: table-cell;
+      max-width: 100%;
+      background: transparent;
+      color: {{ settings.color_popup_text }};
+    }
+  }
+}
+
+.modal-form.newsletter-wrapper .newsletter-btn-wrapper .btn {
+    border: none !important;
+    background-color: {{ settings.color_popup_text }} !important;
+    color: {{ settings.color_popup_body }} !important;
+    font-weight: bold !important;
+    width: 100%;
+    margin-top: -2px;
+    border-radius: 0px;
+    @include transition("background-color 0.4s ease, color 0.4s ease");
+
+    &:hover {
+      outline: none;
+      background-color: {{ settings.color_popup_body }} !important;
+      color: {{ settings.color_popup_text }} !important;
+    }
+  }
+
+
+.modal-text {
+  visibility: hidden;
+  height: 0px;
+}
+
+.modal.modal-bkg {
+  opacity: 1;
+}
+
+.modal-bkg {
+  display: block;
+  height: 0px;
+  padding: 10px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 7;
+  opacity: 0;
+  -o-transition: background .3s ease-in-out, height 0s, opacity .3s ease-in-out;
+  -ms-transition: background .3s ease-in-out, height 0s, opacity .3s ease-in-out;
+  -moz-transition: background .3s ease-in-out, height 0s, opacity .3s ease-in-out;
+  -webkit-transition: background .3s ease-in-out, height 0s, opacity .3s ease-in-out;
+  transition: background .3s ease-in-out, height 0s, opacity .3s ease-in-out;
+}
+
+.modal-text {
+  color: white;
+  position: relative;
+  margin: 0 auto;
+  min-height: 300px;
+  z-index: 8;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+
+  .modal-image {
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    width: 50%;
+  }
+
+  .close-popup {
+    position: absolute;
+    top: 5px;
+    left: 15px;
+    font-size: 30px;
+    padding: 0;
+    color: {{ settings.color_popup_title }};
+  }
+
+  .text-content {
+    padding-top: 4.5%;
+    width: 85%;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .title {
+    color: {{ settings.color_popup_title }};
+    font-size: 30px;
+    margin-bottom: 0;
+  }
+
+  .subtitle {
+    color: {{ settings.color_popup_text }};
+    font-size: 14px;
+    text-transform: none;
+    line-height: 2em;
+  }
+
+  .text-box {
+    background: {{ settings.color_popup_body }};
+    padding: 15px 0 27px;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 7;
+    text-align: center;
+  }
+
+  .modal.newsletter-wrapper {
+    -o-transition: all .3s;
+    -ms-transition: all .3s;
+    -moz-transition: all .3s;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+    margin-top: 15px;
+
+    form {
+      margin: 0 auto;
+      max-width: 469px;
+      position: relative;
+      top: 44%;
+      z-index: 3;
+    }
+  }
+}
+
+.modal-text .close-popup {
+  outline: none;
+  background: none;
+  text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 19px;
+  width: 43px;
+}
+
+.modal-text .close-popupn:focus {outline:0;}
+
+.modal-text .title {
+    letter-spacing: .07em;
+    font-weight: 900;
+    color: #303843;
+    font-size: 1.55em;
+    margin-bottom: 8px;
+}
+
+.text-content .title-wrapper .subtitle {
+    color: #303843;
+    font-size: 14px;
+    text-transform: none;
+}
+
+
+.modal-text .modal.newsletter-wrapper form {
+    margin: 0 auto;
+    max-width: 469px;
+    position: relative;
+    top: 44%;
+    z-index: 3;
+}
+
+.modal-form.newsletter-wrapper .input-group {
+    outline: none;
+    margin: 0 auto;
+    display: inline-block;
+    text-align: center;
+}
+
+.modal-form.newsletter-wrapper .newsletter-btn-wrapper .btn {
+    color: white;
+    background: #303843;
+    border: none !important;
+    font-weight: bold !important;
+    width: auto;
+    margin-top: 0px;
+}
+.newsletter_submit-text {
+  color: white;
+}
+.newsletter-wrapper {
+  display: inline-block;
+  padding-top: 30px;
+  width: 85%;
+  text-align: left;
+  margin: 0 auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.input-group {
+  display: inline-block;
+}
+
+#SubscribeModal {
+  display: inline-block;
+  padding: 11px 15px 10px;
+}
+#Email {
+  display: inline-block;
+  border: 1px solid #303843;
+  width: 50%;
+  text-transform: lowercase;
+  background: none;
+}
+
+.newsletter-btn-wrapper {
+  display: inline-block;
+}
+
+#SubscribeModal:hover {
+  background: white;
+  color: #303843;
+}
+
+.title-wrapper {
+  padding-top: 5px;
+}
+
+.newsletter-form {
+  width: 100%;
+  display: inline-block;
+  color: red;
+}
+
+.wrapper-input {
+  padding-top: 2%;
+}
+
+@media only screen and (max-width: 970px) {
+  .newsletter-btn-wrapper {
+    padding-top: 5px;
+    width: 89%;
+    display: inline-block;
+  }
+  #Email {
+    display: inline-block;
+    width: 89%;
+    text-transform: lowercase;
+    background: none;
+  }
+  #SubscribeModal {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 768px)  {
+  .modal-form.newsletter-wrapper .input-group .newsletter-btn-wrapper {
+    width: auto;
+    display: block;
+    margin-top: 0;
+    border: none;
+    border-top: 2px solid;
+  }
+  .newsletter-wrapper form {width: 90%;}
+  .modal-text .subtitle {font-size: 16px; line-height: 1em; padding-top: 10px;}
+}
+@media only screen and (max-width: 620px)  {
+  .modal-text .close-popup {padding-top: 5px; font-size: 15px;}
+  .modal-text .modal-image {width: 0;}
+  .modal-text {height: 331px;}
+  .modal-text .title {font-size: 1.24em; line-height: 1.5em; text-align: left !important;}
+  .modal-text .subtitle {font-size: 14px;}
+  .width--two-thirds {width: 100%; display: inline-block;}
+  .modal-text .text-content {padding-top: 0px;}
+}
+@media only screen and (max-width: 550px)  {
+  .modal-text {width: 90%; }
+  .modal-text .title {font-size: 22px; line-height: 28px;}
+  .modal-text .subtitle {font-size: 14px;}
+}
+@media only screen and (max-width: 350px)  {
+  .modal-text {width: 100%; height: 70%;}
+  .modal-text .title {font-size: 20px;}
+  .modal-text .subtitle {font-size: 14px;}
+}
+
+// HORIZONTAL MOBILE VIEW
+@media only screen and (max-height: 500px) {
+  .modal-text .modal-image {padding: 50px;}
+  .modal-text {width: 90%; font-size: 12px; height: 380px;}
+  .modal-text .subtitle {font-size: 13px;}
+  .modal-text .title {font-size: 24px;}
+}
+@media only screen and (max-height: 375px) {
+  .modal-text {font-size: 10px; height: 305px;}
+  .modal-text .subtitle {font-size: 11px;}
+  .modal-text .title {font-size: 20px;}
+}

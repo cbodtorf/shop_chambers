@@ -72,6 +72,8 @@
   </div>
 
   {% section 'footer' %}
+  {% include 'newsletter-popup' %}
+
 
   <!-- Scripts -->
   {{ 'jquery-1.11.1.min.js' | asset_url | script_tag }}
@@ -95,6 +97,118 @@
 
   {{ 'plugins.js'  | asset_url | script_tag }}
   {{ 'theme.js'  | asset_url | script_tag }}
+
+
+  <script type="text/javascript">
+    $(function(){
+      /**
+      * Newsletter Footer
+      */
+      $('#mc-embedded-subscribe-form[name="mc-footer"]').submit(function(event){
+        event.preventDefault();
+        var url = this.getAttribute('action')
+        if (!url.includes('post-json')) {
+          url = url.replace('post', 'post-json')
+        }
+        submitSubscribeForm(url, $('#mc-embedded-subscribe-form[name="mc-footer"]'), $('.mc-footer-input'), $('.mc-footer-btn'));
+      })
+      /**
+      * Newsletter Modal
+      */
+      $('#mc-embedded-subscribe-form[name="mc-modal"]').submit(function(event){
+        event.preventDefault();
+        var url = this.getAttribute('action')
+        if (!url.includes('post-json')) {
+          url = url.replace('post', 'post-json')
+        }
+        submitSubscribeForm(url, $('#mc-embedded-subscribe-form[name="mc-modal"]'), $('.mc-inputGroup .mc-modal-input'), $('.mc-inputGroup'));
+      })
+      /**
+      * Subscribe Form
+      * @param {obj} Jquery :: Form Element. Access to action url, and form data.
+      * @param {obj} Jquery :: Input Element. Access to reset input value or modify placeholder value.
+      * @param {obj} Jquery :: Button Element. Access to hiding button.
+      */
+      function submitSubscribeForm(url, $form, $input, $button) {
+        console.log("sub", $form, $input, $button );
+        /**
+        * Reset Input on Error
+        * @param {obj} Jquery :: Input Element. Access to reset input value or modify placeholder value.
+        * @param {str} String :: Error Message.
+        */
+        function resetInput(input, message) {
+          input.attr('placeholder', message).focus().blur();
+          input.val('')
+          input.addClass('inline-errors')
+        }
+         $.ajax({
+             type: "GET",
+             url: url,
+             data: $form.serialize(),
+             cache: false,
+             dataType: "jsonp",
+             jsonp: "c", // trigger MailChimp to return a JSONP response
+             contentType: "application/json; charset=utf-8",
+             error: function(error){
+                 // According to jquery docs, this is never called for cross-domain JSONP requests
+             },
+             success: function(data){
+                 var input = $input;
+                 var button = $button;
+                 var resultMessage = data.msg || "Sorry. Unable to subscribe. Please try again later."
+                 var email = input.val()
+                 if (email === '') {
+                   // NOTHING IN THE EMAIL INPUT
+                   resultMessage = 'Please enter your email.'
+                   resetInput(input, resultMessage)
+                 } else if (data.result != "success") {
+                   // ALREADY SUBSCRIBED
+                   if (data.msg && data.msg.indexOf("already subscribed") >= 0) {
+                     resultMessage = "You're already subscribed. Thank you."
+                     resetInput(input, resultMessage)
+                   }
+                 } else {
+                   // SUCCESS
+                   resultMessage = "Thank you!<br>You must confirm the subscription in your inbox."
+                   $form.find('.form-success').removeClass('hide')
+                   input.addClass('hide')
+                   button.addClass('hide')
+                    /**
+                    * GOOGLE ANALYTICS
+                    * --- *
+                    * Modal Newsletter Submit Success ( only on success for more accurate data. )
+                    */
+                    ga('send', {
+                      hitType: 'event',
+                      eventCategory: 'newsletter_modal',
+                      eventAction: 'submit',
+                      eventLabel: 'modal_success'
+                    })
+                 }
+             }
+         }).then(function(response){
+           /**
+           * MORE ERROR MESSAGES
+           */
+           var input = $input;
+           var resultMessage = response.msg;
+           var requests = response.msg.split(' ').reverse();
+           if(response.result === 'error' && response.msg[0] === '0') {
+             // bad email
+              resultMessage = 'Please enter your email.'
+              resetInput(input, resultMessage)
+            } else if(response.result === 'error' && requests[0].toUpperCase() === 'REQUESTS') {
+              // too many request (without confirming email)
+              resultMessage = 'Too Many Signup Requests.'
+              resetInput(input, resultMessage)
+            } else if(response.result === 'error'){
+              // Other errors
+              resetInput(input, resultMessage)
+            }
+         });
+      }
+    })
+  </script>
 
 </body>
 </html>

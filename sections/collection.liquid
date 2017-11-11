@@ -26,7 +26,6 @@
 >
   {% unless use_masonry %}
     <h1 class="page-title">{{ collection.title }}</h1>
-    {% include 'breadcrumbs' %}
   {% endunless %}
 
   {% paginate collection.products by products_per_page %}
@@ -48,7 +47,6 @@
 
         <div class="collection-header-content">
           {% if use_masonry %}
-            {% include 'breadcrumbs' %}
             <h1 class="page-title">{{ collection.title }}</h1>
           {% endif %}
 

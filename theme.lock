@@ -32,15 +32,15 @@ assets/pxu-social-icons.woff:
 assets/theme.js.liquid:
   development: 2017-11-05T16:55:23-05:00   02d49449567db3e75854397bea0d435a
 assets/theme.scss.liquid:
-  development: 2017-11-05T16:55:23-05:00   332224db142c1b0032fe718f89913ff5
+  development: 2017-11-11T17:21:38-05:00   60f86c02de47f02e6cf6a315b6b63006
 config/settings_data.json:
   development: 2017-11-08T17:22:03-05:00   51e31c2ec659a0b7d3164c072341b19d
 config/settings_schema.json:
-  development: 2017-11-05T16:55:24-05:00   4ff7c9cefd9f6221d33d09269587e991
+  development: 2017-11-11T17:14:40-05:00   b083db64be3b68344bde34e4a20f6047
 layout/alternative.liquid:
   development: 2017-11-05T16:55:23-05:00   440c2bd2ed8e8cdcd388629ed77bddfb
 layout/theme.liquid:
-  development: 2017-11-05T16:55:23-05:00   1be05ba8237db74928938c787e04efea
+  development: 2017-11-11T16:07:45-05:00   9dee19c8caf8588b6aa02e8e26fe6fc6
 locales/en.default.json:
   development: 2017-11-05T16:55:23-05:00   1000c2fb5275c67959c0ba03a420ecaf
 sections/article.liquid:
@@ -54,7 +54,7 @@ sections/cart.liquid:
 sections/collection-list.liquid:
   development: 2017-11-05T16:55:21-05:00   6e757c4543a9438e0e2c4a530cbeded0
 sections/collection.liquid:
-  development: 2017-11-05T16:55:21-05:00   1ccccb5b0794e8ea493da007dfa98b25
+  development: 2017-11-11T16:01:37-05:00   4ae7fd9422b89778728049372b9b0067
 sections/footer.liquid:
   development: 2017-11-11T15:52:12-05:00   48eed1293f77ff2a24cf786cd28ea70d
 sections/header.liquid:
@@ -82,7 +82,7 @@ sections/home-testimonials.liquid:
 sections/home-video.liquid:
   development: 2017-11-05T16:55:21-05:00   3f70db69041d76ada3b88dd13b4ccc14
 sections/product.liquid:
-  development: 2017-11-05T16:55:22-05:00   a81e2b58193a499e4538079eeec8fbcd
+  development: 2017-11-11T16:01:00-05:00   39448e5de185ec1e0227252c5abec8de
 snippets/block-blog-promo.liquid:
   development: 2017-11-05T16:55:23-05:00   b07d336ba1c6edcb1831fbab37e668ae
 snippets/breadcrumbs.liquid:
@@ -111,6 +111,8 @@ snippets/mini-cart.liquid:
   development: 2017-11-05T16:55:24-05:00   a234f473362346ab77faef05f4a6974a
 snippets/modal.liquid:
   development: 2017-11-05T16:55:24-05:00   1ef3e2262d832cb3d95c2908c612a552
+snippets/newsletter-popup.liquid:
+  development: 2017-11-11T17:20:53-05:00   5494395031e9435f83e431fc17061446
 snippets/pagination.liquid:
   development: 2017-11-05T16:55:24-05:00   e531d4a7a548b0eb14659e5a07ee2e40
 snippets/payment-icon.liquid:

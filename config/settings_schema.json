@@ -1146,6 +1146,111 @@
     ]
   },
   {
+    "name": "Newsletter Popup",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "newsletter_popup_enable",
+        "label": "Show newsletter popup"
+      },
+      {
+        "type": "select",
+        "id": "popup_delay",
+        "label": "Popup Delay in Seconds.",
+        "info": "Select a number between 3 and 30",
+        "options": [
+          {
+            "value": "3000",
+            "label": "3 seconds"
+          },
+          {
+            "value": "5000",
+            "label": "5 seconds"
+          },
+          {
+            "value": "10000",
+            "label": "10 seconds"
+          },
+          {
+            "value": "15000",
+            "label": "15 seconds"
+          },
+          {
+            "value": "20000",
+            "label": "20 seconds"
+          },
+          {
+            "value": "25000",
+            "label": "25 seconds"
+          },
+          {
+            "value": "30000",
+            "label": "30 seconds"
+          }
+        ]
+      },
+      {
+        "type": "color",
+        "id": "color_popup_bg",
+        "label": "Select color for translucent background layer.",
+        "default": "#979797"
+      },
+      {
+        "type": "color",
+        "id": "color_popup_body",
+        "label": "Select color for the body.",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_popup_title",
+        "label": "Select color for the title text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_popup_text",
+        "label": "Select color for the body text",
+        "default": "#000000"
+      },
+      {
+        "type": "header",
+        "content": "Images"
+      },
+      {
+        "type": "image",
+        "id": "newsletter_popup_side_img.jpg",
+        "label": "Side Image",
+        "info": "800px wide (recommended)"
+      },
+      {
+        "type": "header",
+        "content": "Text Content"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_title",
+        "label": "Popup Title",
+        "info": "This is the title of the popup"
+      },
+      {
+        "type": "text",
+        "id": "newsletter_popup_subtitle",
+        "label": "Popup Sub-title",
+        "info": "This is the subtitle"
+      },
+      {
+        "type": "header",
+        "content": "Mailchimp"
+      },
+      {
+        "type": "text",
+        "id": "footer_signup_action",
+        "label": "Mailchimp form action link (begins http:\/\/) [?](http:\/\/cleanthemes.co.uk\/symmetry\/mailchimp) - leave blank to use built-in signup"
+      }
+    ]
+  },
+  {
     "name": "Layout",
     "settings": [
       {
